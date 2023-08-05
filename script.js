@@ -9,13 +9,6 @@ function loadNextPokemon() {
   }
 }
 
-/* function loadPreviousPokemon() {
-  if (currentPokemonId > 1) {
-    currentPokemonId--;
-    fetchPokemonData(currentPokemonId);
-  }
-} */
-
 async function fetchPokemonData(pokemonId) {
   let responsAsJSON = await getResponseAsJSON(pokemonId);
   displayPokemonCard(responsAsJSON);
@@ -31,15 +24,21 @@ async function getResponseAsJSON(pokemonId) {
 function displayPokemonCard(pokemonData) {
   let pokemonCard = document.getElementById("pokemonList");
   let typesImages = pokemonData.types.map(type => `<img class="typeImg" src="img/${type.type.name}.svg">`).join('');
-  let pokemonInfo = `<h2>${pokemonData.name.toUpperCase()}</h2>${typesImages}`;
+  let pokemonInfo = `${typesImages}`;
   let pokemonIndex = pokemonData.id 
-  pokemonCard.innerHTML += `
-    <div class="pokemon-card ${pokemonData.types[0].type.name}" /* onclick="displayOverlay(${pokemonIndex})" */>
+  pokemonCard.innerHTML += pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex);
+}
+
+function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
+  return `
+  <div class="pokemon-card ${pokemonData.types[0].type.name}" onclick="displayOverlay(${pokemonIndex})">
+    <h2>${pokemonData.name.toUpperCase()}</h2>
+    <div class="flexCenter">
       <div class="pokemonInfo" >${pokemonInfo}</div>
       <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
     </div>
-  `;
-
+  </div>
+`;
 }
 
 function displayErrorMessage() {
@@ -70,18 +69,18 @@ async function displayOverlay(pokemonIndex) {
     let statValue = stat.base_stat
     statsInfo += statHTML(stat, statValue);
   }
-  overlay.innerHTML = overlayHTML(pokemonData, pokemonInfo, statsInfo);
+  overlay.innerHTML = overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex);
 }
 
-function overlayHTML(pokemonData, pokemonInfo, statsInfo, event) {
+function overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex) {
   return `
   <div class="overlay-content ${pokemonData.types[0].type.name}" onclick="doNotCloseOverlay(event)">
     <div class="pokemonInfo">${pokemonInfo}</div>
     <div class="pokemonStats">${statsInfo}</div>
     <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
     
-    <button onclick="closeOverlay()">Previous</button>
-    <button onclick="next">Next</button>
+    <button onclick="previousPokemon(${pokemonIndex})">Previous</button>
+    <button onclick="nextPokemon(${pokemonIndex})">Next</button>
   </div>
   `;
 }
@@ -105,4 +104,33 @@ function closeOverlay() {
 function doNotCloseOverlay(event) {
   event.stopPropagation();
 }
+
+function nextPokemon(pokemonIndex) { 
+  if(pokemonIndex < 151) {
+    pokemonIndex++;
+    displayOverlay(pokemonIndex);
+  }
+}
+
+function previousPokemon(pokemonIndex) {
+  if(pokemonIndex > 1) {
+    pokemonIndex--;
+    displayOverlay(pokemonIndex);
+  }
+}
+
+
+
+document.addEventListener("keydown", function (event) {
+  if (event.code === "ArrowRight") {
+    nextPokemon(pokemonIndex);
+  }
+  if (event.code === "ArrowLeft") {
+    previousPokemon(pokemonIndex);
+  }
+
+  if (event.code === "Escape") {
+    closeOverlay();
+  }
+});
 
