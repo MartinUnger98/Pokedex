@@ -3,6 +3,10 @@ body {
     text-align: center;
     margin: 0px;
   }
+
+.d-none {
+  display: none;
+}
    
 header {
   text-align: center;

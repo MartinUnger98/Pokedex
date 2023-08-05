@@ -17,36 +17,29 @@ function loadNextPokemon() {
 } */
 
 async function fetchPokemonData(pokemonId) {
-  let url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
-  let response = fetch(url);
-  let responsAsJSON = response.json();
+  let responsAsJSON = await getResponseAsJSON(pokemonId);
   displayPokemonCard(responsAsJSON);
-    .then(response => response.json())
-    .then(data => displayPokemonCard(data))
-    .catch(error => {
-      console.error('Error:', error);
-      displayErrorMessage();
-    });
+}
+
+async function getResponseAsJSON(pokemonId) {
+  let url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
+  let response = await fetch(url);
+  let responsAsJSON = await response.json();
+  return responsAsJSON;
 }
 
 function displayPokemonCard(pokemonData) {
-  let pokemonCard = document.createElement('div');
-  pokemonCard.classList.add('pokemon-card');
-  pokemonCard.classList.add(pokemonData.types[0].type.name);
-  pokemonCard.onclick = "displayOverlay(pokemonData)";
-
+  let pokemonCard = document.getElementById("pokemonList");
   let typesImages = pokemonData.types.map(type => `<img class="typeImg" src="img/${type.type.name}.svg">`).join('');
   let pokemonInfo = `<h2>${pokemonData.name.toUpperCase()}</h2>${typesImages}`;
-
-  pokemonCard.innerHTML = `
-    <div class="pokemonInfo" >${pokemonInfo}</div>
-    <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
+  let pokemonIndex = pokemonData.id 
+  pokemonCard.innerHTML += `
+    <div class="pokemon-card ${pokemonData.types[0].type.name}" /* onclick="displayOverlay(${pokemonIndex})" */>
+      <div class="pokemonInfo" >${pokemonInfo}</div>
+      <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
+    </div>
   `;
 
-  // Add onclick event to display the overlay when a pokemon card is clicked
-  pokemonCard.onclick = () => displayOverlay(pokemonData);
-
-  pokemonListDiv.appendChild(pokemonCard);
 }
 
 function displayErrorMessage() {
@@ -60,47 +53,56 @@ function displayErrorMessage() {
 loadNextPokemon();
 
 // Automatically load the next Pokemon every 2 seconds (adjust the interval as needed)
-setInterval(loadNextPokemon, 2);
+setInterval(loadNextPokemon, 0.00000005);
 
 // Function to display the overlay with more information about the selected pokemon
-function displayOverlay(pokemonData) {
-  const overlay = document.createElement('div');
+async function displayOverlay(pokemonIndex) {
+  let pokemonData = await getResponseAsJSON(pokemonIndex);
+  let overlay = document.getElementById("overlay");
+  overlay.classList.remove('d-none');
   overlay.classList.add('overlay');
- 
-  const overlayContent = document.createElement('div');
-  overlayContent.classList.add('overlay-content');
-  overlayContent.classList.add(pokemonData.types[0].type.name);
   let typesImages = pokemonData.types.map(type => `<img class="typeImg" src="img/${type.type.name}.svg">`).join('');
   let pokemonInfo = `<h2>${pokemonData.name.toUpperCase()}</h2>${typesImages}`;
 
-  let statsInfo = `<h3>Stats:</h3>`;
-  for (const stat of pokemonData.stats) {
-    const percentage = stat.base_stat
-    statsInfo += `
-      <div class="stat-container">
-        <div class="stat-name">${stat.stat.name}</div>
-        <div class="progress" role="progressbar" aria-label="Example with label">
-          <div class="progress-bar" style="width: ${percentage}%">${percentage}</div>
-        </div>
-      </div>
-    `;
-  }
 
-  overlayContent.innerHTML = `
+  let statsInfo = `<h3>Stats:</h3>`;
+  for (let stat of pokemonData.stats) {
+    let statValue = stat.base_stat
+    statsInfo += statHTML(stat, statValue);
+  }
+  overlay.innerHTML = overlayHTML(pokemonData, pokemonInfo, statsInfo);
+}
+
+function overlayHTML(pokemonData, pokemonInfo, statsInfo, event) {
+  return `
+  <div class="overlay-content ${pokemonData.types[0].type.name}" onclick="doNotCloseOverlay(event)">
     <div class="pokemonInfo">${pokemonInfo}</div>
     <div class="pokemonStats">${statsInfo}</div>
     <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
     
-    <button onclick="loadNextPokemon()">Previous</button>
+    <button onclick="closeOverlay()">Previous</button>
     <button onclick="next">Next</button>
+  </div>
   `;
-
-  overlay.appendChild(overlayContent);
-  document.body.appendChild(overlay);
-
-  // Add click event to close the overlay when clicking outside the content
-  overlay.onclick = () => document.body.removeChild(overlay);
-  
 }
 
+function statHTML(stat, statValue) {
+  return `
+  <div class="stat-container">
+    <div class="stat-name">${stat.stat.name}</div>
+    <div class="progress" role="progressbar" aria-label="Example with label">
+      <div class="progress-bar" style="width: ${statValue}%">${statValue}</div>
+    </div>
+  </div>
+`;
+}
+
+function closeOverlay() {
+  let overlay = document.getElementById("overlay")
+  overlay.classList.add("d-none");
+}
+
+function doNotCloseOverlay(event) {
+  event.stopPropagation();
+}
 
