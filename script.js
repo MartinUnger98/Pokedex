@@ -120,9 +120,6 @@ function previousPokemon(pokemonIndex) {
   }
 }
 
-function getPokemonIndex() {
-  getResponseAsJSON(currentPokemonId)
-}
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "ArrowRight") {
