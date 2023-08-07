@@ -1,6 +1,6 @@
 let currentPokemonId = 1;
 let pokemonListDiv = document.getElementById('pokemonList');
-
+let pokemonIndexGlobal = "";
 
 function loadNextPokemon() {
   if (currentPokemonId <= 151) { // Assuming only gen1
@@ -56,6 +56,7 @@ setInterval(loadNextPokemon, 0.00000005);
 
 // Function to display the overlay with more information about the selected pokemon
 async function displayOverlay(pokemonIndex) {
+  pokemonIndexGlobal = pokemonIndex;
   let pokemonData = await getResponseAsJSON(pokemonIndex);
   let overlay = document.getElementById("overlay");
   overlay.classList.remove('d-none');
@@ -119,14 +120,16 @@ function previousPokemon(pokemonIndex) {
   }
 }
 
-
+function getPokemonIndex() {
+  getResponseAsJSON(currentPokemonId)
+}
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "ArrowRight") {
-    nextPokemon(pokemonIndex);
+    nextPokemon(pokemonIndexGlobal);
   }
   if (event.code === "ArrowLeft") {
-    previousPokemon(pokemonIndex);
+    previousPokemon(pokemonIndexGlobal);
   }
 
   if (event.code === "Escape") {
