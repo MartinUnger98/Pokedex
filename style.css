@@ -2,7 +2,30 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 0px;
+  background: url(img/pokedex_background.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
+
+/* ===== Scrollbar CSS ===== */
+  
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #d6d6d6;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #4A95C2;
+    border-radius: 8px;
+    border: 1px none #ffffff;
+  }
 
 .d-none {
   display: none;
@@ -49,7 +72,8 @@ h1 {
   width: 400px; /* Adjust the width as needed */
   text-align: center;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 30px;
+  cursor: pointer;
 }
 
 .error-card {

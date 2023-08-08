@@ -2,6 +2,17 @@ let currentPokemonId = 1;
 let pokemonListDiv = document.getElementById('pokemonList');
 let pokemonIndexGlobal = "";
 
+// Laden aller Pokémon
+const allPokemon = [];
+
+async function loadAllPokemon() {
+  for (let i = 1; i <= 151; i++) {
+    const pokemonData = await fetchPokemonData(i);
+    allPokemon.push(pokemonData);
+  }
+}
+
+
 function loadNextPokemon() {
   if (currentPokemonId <= 151) { // Assuming only gen1
     fetchPokemonData(currentPokemonId);
@@ -35,7 +46,7 @@ function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
     <h2>${pokemonData.name.toUpperCase()}</h2>
     <div class="flexCenter">
       <div class="pokemonInfo" >${pokemonInfo}</div>
-      <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
+      <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
     </div>
   </div>
 `;
@@ -78,7 +89,7 @@ function overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex) {
   <div class="overlay-content ${pokemonData.types[0].type.name}" onclick="doNotCloseOverlay(event)">
     <div class="pokemonInfo">${pokemonInfo}</div>
     <div class="pokemonStats">${statsInfo}</div>
-    <img class="pokemonImg" src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}">
+    <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
     
     <button onclick="previousPokemon(${pokemonIndex})">Previous</button>
     <button onclick="nextPokemon(${pokemonIndex})">Next</button>
@@ -133,4 +144,30 @@ document.addEventListener("keydown", function (event) {
     closeOverlay();
   }
 });
+
+
+const searchInput = document.getElementById('searchInput');
+const filteredPokemonList = document.getElementById('filteredPokemonList');
+
+searchInput.addEventListener('input', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const filteredPokemon = allPokemon.filter(pokemon => pokemon.name.startsWith(searchTerm));
+  displayFilteredPokemon(filteredPokemon);
+});
+
+function displayFilteredPokemon(pokemonList) {
+  filteredPokemonList.innerHTML = '';
+  for (const pokemon of pokemonList) {
+    const typesImages = pokemon.types.map(type => `<img class="typeImg" src="img/${type.type.name}.svg">`).join('');
+    const pokemonInfo = `${typesImages}`;
+    filteredPokemonList.innerHTML += pokemonCardHTML(pokemon, pokemonInfo, pokemon.id);
+  }
+}
+
+
+// Ladevorgang am Anfang
+loadAllPokemon().then(() => {
+  displayFilteredPokemon(allPokemon);
+});
+
 
