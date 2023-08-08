@@ -46,7 +46,7 @@ function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
     <h2>${pokemonData.name.toUpperCase()}</h2>
     <div class="flexCenter">
       <div class="pokemonInfo" >${pokemonInfo}</div>
-      <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
+      <img class="pokemonImg scale" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
     </div>
   </div>
 `;
@@ -87,7 +87,12 @@ async function displayOverlay(pokemonIndex) {
 function overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex) {
   return `
   <div class="overlay-content ${pokemonData.types[0].type.name}" onclick="doNotCloseOverlay(event)">
-    <div class="pokemonInfo">${pokemonInfo}</div>
+    <div class="overlayHeader">
+      <div class="pokemonInfo">${pokemonInfo}</div>
+      <div>
+        <img class="closeBtn" src="img/schliessen.png" onclick="closeOverlay()">
+      </div>
+    </div>
     <div class="pokemonStats">${statsInfo}</div>
     <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
     
