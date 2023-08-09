@@ -21,30 +21,30 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <header class="header">
+    <header class="header text-center pb-3">
       <h1>Pokédex</h1>
-      <div class="flexCenter gap-1">
+      <div class="d-flex justify-content-center align-items-center gap-1">
         <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
         <button id="searchBtn" onclick="searchPokemon()" disabled>
-          <img src="img/lupe.png" class="search_reset" alt="">
+          <img src="img/lupe.png" class="img30x30" alt="">
         </button>
-        <button id="resetBtn" onclick="reset()" disabled>
-          <img src="img/pfeil-aktualisieren.png" class="search_reset" alt="">
+        <button id="resetBtn" onclick="reset(currentGen)" disabled>
+          <img src="img/pfeil-aktualisieren.png" class="img30x30" alt="">
         </button>
       </div>
-      <div class="mt-2">
-        <button class="selected" onclick="selectGen('gen1')">Gen1</button>
-        <button class="gens" onclick="selectGen('gen2')">Gen2</button>
-        <button class="gens" onclick="selectGen('gen3')">Gen3</button>
-        <button class="gens" onclick="selectGen('gen4')">Gen4</button>
-        <button class="gens" onclick="selectGen('gen5')">Gen5</button>
-        <button class="gens" onclick="selectGen('gen6')">Gen6</button>
-        <button class="gens" onclick="selectGen('gen7')">Gen7</button>
+      <div id="genContainer" class="mt-2">
+        <button id="gen1" class="selected" onclick="clearAll(); reset('gen1')">Gen1</button>
+        <button id="gen2" class="gens" onclick="reset('gen2')">Gen2</button>
+        <button id="gen3" class="gens" onclick="reset('gen3')">Gen3</button>
+        <button id="gen4" class="gens" onclick="reset('gen4')">Gen4</button>
+        <button id="gen5" class="gens" onclick="reset('gen5')">Gen5</button>
+        <button id="gen6" class="gens" onclick="reset('gen6')">Gen6</button>
+        <button id="gen7" class="gens" onclick="reset('gen7')">Gen7</button>
       </div>
       
     </header>
 
-    <div id="pokemonList" class="d-none">
+    <div id="pokemonList" class="d-none d-flex flex-wrap justify-content-center">
       <!-- Pokemon cards will be displayed here -->
     </div>
     <div id="loadingBarContainer">

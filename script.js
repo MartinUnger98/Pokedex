@@ -54,10 +54,6 @@ document.addEventListener("keydown", function (event) {
 });
 
 function selectGen(gen) {
-  let pokemonlist = document.getElementById("pokemonList");
-  if(pokemonlist.childElementCount !== 0) {
-    clearAll();
-  }
   currentGen = gen;
   currentPokemonId = gens[gen].start;
   let end = gens[gen].end;
@@ -68,21 +64,22 @@ function selectGen(gen) {
 async function loadAllPokemon(end) {
   while (currentPokemonId <= end) {
     await fetchPokemonData(currentPokemonId);
-    updateLoadingBar();
+    updateLoadingBar(end);
     currentPokemonId++;
   }
-  // Alle Pokemon sind geladen, Ladebalken ausblenden
+  // Alle Pokemon sind geladen, Ladebalken ausblenden alles disablen auf false
   document.getElementById('loadingBarContainer').style.display = 'none';
   document.getElementById('pokemonList').classList.remove('d-none');
   document.getElementById("resetBtn").disabled = false;
   document.getElementById("searchBtn").disabled = false;
+  disableGens(false);
   searchKeydown = true;
 
 }
 
-function updateLoadingBar() {
+function updateLoadingBar(end) {
   const loadingBar = document.getElementById('loadingBar');
-  const progress = (currentPokemonId / 151) * 100; // Berechne Fortschritt in Prozent
+  const progress = (currentPokemonId / end) * 100; // Berechne Fortschritt in Prozent
   loadingBar.style.width = `${progress}%`;
 }
 
@@ -112,11 +109,11 @@ function displayPokemonCard(pokemonData) {
 
 function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
   return `
-  <div class="pokemon-card ${pokemonData.types[0].type.name}" onclick="displayOverlay(${pokemonIndex})">
+  <div class="pokemon-card ${pokemonData.types[0].type.name} text-center" onclick="displayOverlay(${pokemonIndex})">
     <h2>${pokemonData.name.toUpperCase()}</h2>
-    <div class="flexCenter">
-      <div class="pokemonInfo" >${pokemonInfo}</div>
-      <img class="pokemonImg scale" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="m-3" >${pokemonInfo}</div>
+      <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
     </div>
   </div>
 `;
@@ -125,12 +122,10 @@ function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
 function displayErrorMessage() {
   let errorCard = document.createElement('div');
   errorCard.classList.add('error-card');
+  errorCard.classList.add('text-center');
   errorCard.textContent = 'Pokemon not found.';
   pokemonListDiv.appendChild(errorCard);
 }
-
-
-
 
 async function displayOverlay(pokemonIndex) {
   pokemonIndexGlobal = pokemonIndex;
@@ -154,17 +149,17 @@ async function displayOverlay(pokemonIndex) {
 function overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex) {
   return `
   <div class="overlay-content ${pokemonData.types[0].type.name}" onclick="doNotCloseOverlay(event)">
-    <div class="overlayHeader">
-      <div class="pokemonInfo">${pokemonInfo}</div>
+    <div class="d-flex justify-content-between">
+      <div class="m-3">${pokemonInfo}</div>
       <div>
-        <img class="closeBtn" src="img/schliessen.png" onclick="closeOverlay()">
+        <img class="img30x30 scale" src="img/schliessen.png" onclick="closeOverlay()">
       </div>
     </div>
     <div class="pokemonStats">${statsInfo}</div>
-    <div class="spacebetweenCenter">
-      <img class="next_previous" src="img/linker-pfeil.png" onclick="previousPokemon(${pokemonIndex})"">
-      <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
-      <img class="next_previous" src="img/rechter-pfeil.png" onclick="nextPokemon(${pokemonIndex})"">
+    <div class="d-flex justify-content-between align-items-center">
+      <img class="img30x30 scale" src="img/linker-pfeil.png" onclick="previousPokemon(${pokemonIndex})"">
+      <img class="pokemonImg noTransform" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
+      <img class="img30x30 scale" src="img/rechter-pfeil.png" onclick="nextPokemon(${pokemonIndex})"">
     </div>
   </div>
   `;
@@ -172,7 +167,7 @@ function overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex) {
 
 function statHTML(stat, statValue) {
   return `
-  <div class="stat-container">
+  <div class="d-flex align-items-center mb-1 gap-3">
     <div class="stat-name firstLetterUpper">${stat.stat.name}:</div>
     <div class="progress" role="progressbar" aria-label="Example with label">
       <div class="progress-bar" style="width: ${statValue}%">${statValue}</div>
@@ -192,20 +187,20 @@ function doNotCloseOverlay(event) {
 }
 
 function nextPokemon(pokemonIndex) { 
-  if(pokemonIndex < 151) {
+  let end = gens[currentGen].end;
+  if(pokemonIndex < end) {
     pokemonIndex++;
     displayOverlay(pokemonIndex);
   }
 }
 
 function previousPokemon(pokemonIndex) {
-  if(pokemonIndex > 1) {
+  let start = gens[currentGen].start;
+  if(pokemonIndex > start) {
     pokemonIndex--;
     displayOverlay(pokemonIndex);
   }
 }
-
-
 
 function searchPokemon() {
   searchKeydown = false;
@@ -218,7 +213,7 @@ function searchPokemon() {
     getIds(pokemonStartswith);
   }
   else {
-    reset();
+    reset(currentGen);
   };
 }
 
@@ -251,18 +246,38 @@ function getIdinInt(pokemon) {
   return id;
 }
 
-async function reset() {
+async function reset(newgen) {
   searchKeydown = false;
+  pokemonNames_Ids = [];
   document.getElementById("searchInput").value = "";
   document.getElementById("resetBtn").disabled = true;
   document.getElementById("searchBtn").disabled = true;
+  disableGens(true);
+  setSelectedGenBackground(newgen);
   currentPokemonId = 1;
   document.getElementById('loadingBar').style.width = "0%";
   document.getElementById('loadingBarContainer').style.display = "";
   document.getElementById('pokemonList').classList.add('d-none');
-  await clearAll();
-  await selectGen(currentGen);
+  clearAll();
+  selectGen(newgen);
   
+}
+
+function disableGens(boolean) {
+  let length = document.getElementById("genContainer").childElementCount;
+  for (let i = 1; i <= length; i++) {
+    document.getElementById("gen" + i).disabled = boolean;    
+  }
+}
+
+function setSelectedGenBackground(newgen) {
+  let length = document.getElementById("genContainer").childElementCount;
+  for (let i = 1; i <= length; i++) {
+    document.getElementById("gen" + i).classList.remove("selected");
+    document.getElementById("gen" + i).classList.add("gens");
+  }
+  document.getElementById(newgen).classList.add("selected");
+  document.getElementById(newgen).classList.remove("gens");
 }
 
 selectGen(currentGen);
