@@ -1,35 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokedex</title>
-  <link rel="icon" type="image/x-icon" href="img/Pokeball.jpg">
-  <link rel="stylesheet" href="style.css">
-  <!-- Bootstrap -->
-  <link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-  crossorigin="anonymous"
-  />
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-    crossorigin="anonymous"
-  ></script>
-  <script src="script.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokedex</title>
+    <link rel="icon" type="image/x-icon" href="img/Pokeball.jpg" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
     <header class="header">
-      <h1>Pokedex</h1>
-      <input id="searchInput" type="text" placeholder="Search Pokémon...">
-      <div id="filteredPokemonList"></div>
+      <h1>Pokédex</h1>
+      <div class="flexCenter gap-1">
+        <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
+        <button id="searchBtn" onclick="searchPokemon()" disabled>
+          <img src="img/lupe.png" class="search_reset" alt="">
+        </button>
+        <button id="resetBtn" onclick="reset()" disabled>
+          <img src="img/pfeil-aktualisieren.png" class="search_reset" alt="">
+        </button>
+      </div>
+      <div class="mt-2">
+        <button class="selected" onclick="selectGen('gen1')">Gen1</button>
+        <button class="gens" onclick="selectGen('gen2')">Gen2</button>
+        <button class="gens" onclick="selectGen('gen3')">Gen3</button>
+        <button class="gens" onclick="selectGen('gen4')">Gen4</button>
+        <button class="gens" onclick="selectGen('gen5')">Gen5</button>
+        <button class="gens" onclick="selectGen('gen6')">Gen6</button>
+        <button class="gens" onclick="selectGen('gen7')">Gen7</button>
+      </div>
+      
     </header>
 
-    <div id="pokemonList">
+    <div id="pokemonList" class="d-none">
       <!-- Pokemon cards will be displayed here -->
     </div>
-    <div id="overlay" class="d-none" onclick="closeOverlay()"></div> 
-</body>
+    <div id="loadingBarContainer">
+      <div id="loadingBar"></div>
+    </div>
+    <div id="overlay" class="d-none" onclick="closeOverlay()"></div>
+  </body>
 </html>

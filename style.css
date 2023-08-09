@@ -27,12 +27,17 @@ body {
     border: 1px none #ffffff;
   }
 
+
 .d-none {
   display: none;
 }
 
 header {
   text-align: center;
+  background-color: whitesmoke;
+  position: sticky;
+  top: 0;
+  padding-bottom: 16px;
 }
 
 .flexCenter {
@@ -41,8 +46,27 @@ header {
   align-items: center;
 }
 
+.spacebetweenCenter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected {
+  background-color: #463e3e;
+  color: white;
+}
+
+.gens:hover {
+  background-color: rgba(114, 113, 113, 0.356);
+}
+
 h1 {
   margin-bottom: 20px;
+}
+
+.firstLetterUpper::first-letter {
+  text-transform: capitalize;
 }
 
 #pokemonList {
@@ -54,10 +78,11 @@ h1 {
 .pokemonImg {
   width: 150px;
   height: 150px;
+  transition: all .5s ease-in-out;
 }
 
 .scale:hover {
-  scale: 1.3;
+  transform: scale(1.3);
 }
 
 .pokemonInfo {
@@ -190,6 +215,28 @@ h1 {
   justify-content: space-between;
 }
 
+.next_previous {
+  height: 30px;
+}
+
+.next_previous:hover {
+  cursor: pointer;
+  scale: 1.2;
+}
+
+.search_reset {
+  width: 30px;
+  height: 30px;
+}
+
+#searchBtn:hover {
+  background-color: rgba(114, 113, 113, 0.356);
+}
+
+#resetBtn:hover {
+  background-color: rgba(114, 113, 113, 0.356);
+}
+
 .closeBtn {
   width: 30px;
   height: 30px;
@@ -269,3 +316,51 @@ h1 {
     width: 300px;
   }
 }
+
+#loadingBarContainer {
+  width: 100%;
+  height: 15px;
+  background-color: #ccc;
+}
+
+#loadingBar {
+  height: 100%;
+  width: 0;
+  background-color: #4A95C2;
+  transition: width 0.2s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loading-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #4A95C2;
+  border-radius: 50%;
+  margin: 0 4px;
+  animation: bounce 0.5s infinite;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+
