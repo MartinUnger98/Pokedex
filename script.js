@@ -35,6 +35,7 @@ let gens = {
 };
 let overlayKeydown = false;
 let searchKeydown = false;
+let loadingCount = 15;
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "ArrowRight" && overlayKeydown === true) {
@@ -53,18 +54,23 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+function loadmore() {
+
+  loadAllPokemon(currentPokemonId);
+}
+
 function selectGen(gen) {
   currentGen = gen;
   currentPokemonId = gens[gen].start;
-  let end = gens[gen].end;
-  loadAllPokemon(end);
+  let start = gens[gen].start;
+  loadAllPokemon(start);
 }
 
 
-async function loadAllPokemon(end) {
-  while (currentPokemonId <= end) {
+async function loadAllPokemon(start) {
+  while (currentPokemonId <= start+15) {
     await fetchPokemonData(currentPokemonId);
-    updateLoadingBar(end);
+    updateLoadingBar(start+15);
     currentPokemonId++;
   }
   // Alle Pokemon sind geladen, Ladebalken ausblenden alles disablen auf false
@@ -78,8 +84,8 @@ async function loadAllPokemon(end) {
 }
 
 function updateLoadingBar(end) {
-  const loadingBar = document.getElementById('loadingBar');
-  const progress = (currentPokemonId / end) * 100; // Berechne Fortschritt in Prozent
+  let loadingBar = document.getElementById('loadingBar');  
+  let progress = (currentPokemonId / end) * 100; // Berechne Fortschritt in Prozent
   loadingBar.style.width = `${progress}%`;
 }
 
@@ -110,7 +116,10 @@ function displayPokemonCard(pokemonData) {
 function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
   return `
   <div class="pokemon-card ${pokemonData.types[0].type.name} text-center" onclick="displayOverlay(${pokemonIndex})">
-    <h2>${pokemonData.name.toUpperCase()}</h2>
+    <div class="d-flex justify-content-between">
+      <h2>#${pokemonData.id}</h2>
+      <h2>${pokemonData.name.toUpperCase()}</h2>
+    </div>    
     <div class="d-flex justify-content-center align-items-center">
       <div class="m-3" >${pokemonInfo}</div>
       <img class="pokemonImg" src="${pokemonData.sprites.other["official-artwork"].front_default}" alt="${pokemonData.name}">
@@ -135,7 +144,7 @@ async function displayOverlay(pokemonIndex) {
   overlay.classList.remove('d-none');
   overlay.classList.add('overlay');
   let typesImages = pokemonData.types.map(type => `<img class="typeImg" src="img/${type.type.name}.svg">`).join('');
-  let pokemonInfo = `<h2>${pokemonData.name.toUpperCase()}</h2>${typesImages}`;
+  let pokemonInfo = `<h2>#${pokemonData.id} ${pokemonData.name.toUpperCase()}</h2>${typesImages}`;
 
 
   let statsInfo = `<h3>Stats:</h3>`;
@@ -188,7 +197,7 @@ function doNotCloseOverlay(event) {
 
 function nextPokemon(pokemonIndex) { 
   let end = gens[currentGen].end;
-  if(pokemonIndex < end) {
+  if(pokemonIndex < currentPokemonId -1) {
     pokemonIndex++;
     displayOverlay(pokemonIndex);
   }
@@ -280,4 +289,4 @@ function setSelectedGenBackground(newgen) {
   document.getElementById(newgen).classList.remove("gens");
 }
 
-selectGen(currentGen);
+

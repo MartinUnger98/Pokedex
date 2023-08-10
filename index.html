@@ -20,7 +20,7 @@
     ></script>
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="selectGen('gen1')">
     <header class="header text-center pb-3">
       <h1>Pokédex</h1>
       <div class="d-flex justify-content-center align-items-center gap-1">
@@ -33,7 +33,7 @@
         </button>
       </div>
       <div id="genContainer" class="mt-2">
-        <button id="gen1" class="selected" onclick="clearAll(); reset('gen1')">Gen1</button>
+        <button id="gen1" class="selected" onclick="reset('gen1')">Gen1</button>
         <button id="gen2" class="gens" onclick="reset('gen2')">Gen2</button>
         <button id="gen3" class="gens" onclick="reset('gen3')">Gen3</button>
         <button id="gen4" class="gens" onclick="reset('gen4')">Gen4</button>
@@ -44,12 +44,24 @@
       
     </header>
 
+    <!-- PokemonList -->
     <div id="pokemonList" class="d-none d-flex flex-wrap justify-content-center">
       <!-- Pokemon cards will be displayed here -->
     </div>
-    <div id="loadingBarContainer">
-      <div id="loadingBar"></div>
+
+    <!-- Load More -->
+    <div class="d-flex justify-content-center w-100">
+      <button class="loadmore" onclick="loadmore()">LOAD MORE</button>  
     </div>
+    
+    <!-- Loading Bar -->
+    <div class="d-flex justify-content-center align-items-center loadingbackground mb-3">
+      <div id="loadingBarContainer" class="text-center">
+        <div id="loadingBar"></div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
     <div id="overlay" class="d-none" onclick="closeOverlay()"></div>
   </body>
 </html>

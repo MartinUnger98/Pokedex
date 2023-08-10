@@ -30,6 +30,31 @@ header {
   text-transform: capitalize;
 }
 
+/* ===== Loading Bar ===== */
+
+.loadmore {
+  height: 40px;
+  width: 150px;
+  background-color: #343846;
+  border: none !important;
+  border-radius: 18px;
+  color: white;
+}
+
+#loadingBarContainer {
+  width: 300px;
+  height: 50px;
+  background-color: #ffffff;
+  border: 5px solid #000000;
+}
+
+#loadingBar {
+  height: 100%;
+  width: 0;
+  background-color: #000000;
+  transition: width 0.2s ease-in-out;
+}
+
 /* ===== Pokemon-Card ===== */
 
 
@@ -139,19 +164,6 @@ img.pokemonImg {
 .progress-bar {
   background-color: white !important;
   color: black !important;
-}
-
-#loadingBarContainer {
-  width: 100%;
-  height: 15px;
-  background-color: #ccc;
-}
-
-#loadingBar {
-  height: 100%;
-  width: 0;
-  background-color: #4A95C2;
-  transition: width 0.2s ease-in-out;
 }
 
 
