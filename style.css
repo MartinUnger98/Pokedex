@@ -1,6 +1,5 @@
 /* ===== general ===== */
 body {
-  font-family: Arial, sans-serif;
   margin: 0px;
   background: url(img/pokedex_background.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -33,12 +32,19 @@ header {
 /* ===== Loading Bar ===== */
 
 .loadmore {
-  height: 40px;
-  width: 150px;
+  height: 80px;
+  width: 360px;
   background-color: #343846;
   border: none !important;
   border-radius: 18px;
   color: white;
+  font-size: 40px !important;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.loadmore:hover {
+  background-color: #b8bdcf;
+  color: #000000;
 }
 
 #loadingBarContainer {
@@ -53,6 +59,32 @@ header {
   width: 0;
   background-color: #000000;
   transition: width 0.2s ease-in-out;
+}
+
+/* ===== Loading Animation ===== */
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== Pokemon-Card ===== */

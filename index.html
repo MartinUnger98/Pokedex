@@ -6,6 +6,8 @@
     <title>Pokedex</title>
     <link rel="icon" type="image/x-icon" href="img/Pokeball.jpg" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="fonts.css">
+    
     <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -50,12 +52,17 @@
     </div>
 
     <!-- Load More -->
-    <div class="d-flex justify-content-center w-100">
-      <button class="loadmore" onclick="loadmore()">LOAD MORE</button>  
+    <div id="loadmore" class="d-flex justify-content-center w-100 d-none">
+      <button class="loadmore d-flex flex-row justify-content-center align-items-center gap-1" onclick="loadmore()">
+        Load more
+        <div id="loadAni" class="lds-dual-ring d-none"></div>
+      </button>
+      
     </div>
     
     <!-- Loading Bar -->
-    <div class="d-flex justify-content-center align-items-center loadingbackground mb-3">
+    <div class="d-flex justify-content-center align-items-center flex-column loadingbackground mb-3 h-100">
+      <h2 id="loadingtxt">Loading GEN1</h2>
       <div id="loadingBarContainer" class="text-center">
         <div id="loadingBar"></div>
       </div>

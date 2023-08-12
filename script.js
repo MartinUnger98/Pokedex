@@ -35,7 +35,6 @@ let gens = {
 };
 let overlayKeydown = false;
 let searchKeydown = false;
-let loadingCount = 15;
 
 document.addEventListener("keydown", function (event) {
   if (event.code === "ArrowRight" && overlayKeydown === true) {
@@ -55,32 +54,55 @@ document.addEventListener("keydown", function (event) {
 });
 
 function loadmore() {
-
-  loadAllPokemon(currentPokemonId);
+  document.getElementById('loadAni').classList.remove('d-none');
+  let end = gens[currentGen].end;
+  loadAllPokemon(currentPokemonId, end);
 }
 
 function selectGen(gen) {
   currentGen = gen;
   currentPokemonId = gens[gen].start;
   let start = gens[gen].start;
-  loadAllPokemon(start);
+  let end = gens[gen].end;
+  document.getElementById('loadingBarContainer').classList.remove('d-none');
+  document.getElementById('loadmore').classList.add('d-none');
+  document.getElementById('loadingtxt').classList.remove('d-none');
+  document.getElementById('loadingtxt').innerHTML = "Loading " + currentGen.toUpperCase();
+  loadAllPokemon(start, end);
 }
 
 
-async function loadAllPokemon(start) {
-  while (currentPokemonId <= start+15) {
+async function loadAllPokemon(start, end) {
+  let amountMore = 10;
+  if(start + amountMore > end) {
+    amountMore = end - start;
+  };
+
+  while (currentPokemonId <= start + amountMore) {
     await fetchPokemonData(currentPokemonId);
-    updateLoadingBar(start+15);
+    updateLoadingBar(start + amountMore);
     currentPokemonId++;
   }
   // Alle Pokemon sind geladen, Ladebalken ausblenden alles disablen auf false
-  document.getElementById('loadingBarContainer').style.display = 'none';
+  showLoadedPokemon((start + amountMore), start);
+  document.getElementById('loadingBarContainer').classList.add('d-none');
+  document.getElementById('loadAni').classList.add('d-none');
   document.getElementById('pokemonList').classList.remove('d-none');
+  document.getElementById("loadmore").classList.remove('d-none');
   document.getElementById("resetBtn").disabled = false;
   document.getElementById("searchBtn").disabled = false;
+  document.getElementById('loadingtxt').classList.add('d-none');
+
+  
   disableGens(false);
   searchKeydown = true;
 
+}
+
+function showLoadedPokemon(end, start) {
+  for (let i = start; i <= end; i++) {
+    document.getElementById("pokeID" + i).classList.remove('d-none');    
+  }
 }
 
 function updateLoadingBar(end) {
@@ -115,7 +137,7 @@ function displayPokemonCard(pokemonData) {
 
 function pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex) {
   return `
-  <div class="pokemon-card ${pokemonData.types[0].type.name} text-center" onclick="displayOverlay(${pokemonIndex})">
+  <div class="pokemon-card ${pokemonData.types[0].type.name} text-center d-none" id="pokeID${pokemonIndex}" onclick="displayOverlay(${pokemonIndex})">
     <div class="d-flex justify-content-between">
       <h2>#${pokemonData.id}</h2>
       <h2>${pokemonData.name.toUpperCase()}</h2>
