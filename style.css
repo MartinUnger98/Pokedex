@@ -20,6 +20,11 @@ header {
   height: 30px;
 }
 
+.img100x100 {
+  width: 100px;
+  height: 100px;
+}
+
 .scale:hover {
   scale: 1.2;
   cursor: pointer;
