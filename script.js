@@ -57,7 +57,7 @@ function selectGen(gen) {
 
 
 async function loadAllPokemon(start, end) {
-  let amountMore = 20;
+  let amountMore = 10;
   if(start + amountMore > end) {
     amountMore = end - start;
   };
