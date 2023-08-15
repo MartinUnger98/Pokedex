@@ -71,13 +71,6 @@ async function loadAllPokemon(start, end) {
   }
   await Promise.all(promises);
   
-/* 
-  while (currentPokemonId <= start + amountMore) {
-    await fetchPokemonData(currentPokemonId);
-    updateLoadingBar(start + amountMore);
-    currentPokemonId++;
-  } */
-
   showLoadedPokemon((start + amountMore), start);
   document.getElementById('loadingBarContainer').classList.add('d-none');
   document.getElementById('loadAni').classList.add('d-none');
