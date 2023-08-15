@@ -57,22 +57,22 @@ function selectGen(gen) {
 
 
 async function loadAllPokemon(start, end) {
-  let amountMore = 50;
+  let amountMore = 20;
   if(start + amountMore > end) {
     amountMore = end - start;
   };
   let number = 1;
   const promises = [];
   while (currentPokemonId <= start + amountMore) {
-      promises.push(fetchPokemonData(currentPokemonId));
+      promises.push(await fetchPokemonData(currentPokemonId));
       updateLoadingBar(number, amountMore);
       currentPokemonId++;
       number++;
   }
   await Promise.all(promises);
   
-
-  /* while (currentPokemonId <= start + amountMore) {
+/* 
+  while (currentPokemonId <= start + amountMore) {
     await fetchPokemonData(currentPokemonId);
     updateLoadingBar(start + amountMore);
     currentPokemonId++;
@@ -83,8 +83,7 @@ async function loadAllPokemon(start, end) {
   document.getElementById('loadAni').classList.add('d-none');
   document.getElementById('pokemonList').classList.remove('d-none');
   document.getElementById("loadmore").classList.remove('d-none');
-  document.getElementById("resetBtn").disabled = false;
-  document.getElementById("searchBtn").disabled = false;
+  document.getElementById('loadingbackground').classList.add('h-0');
   document.getElementById('loadingtxt').classList.add('d-none');
   disableGens(false);
   searchKeydown = true;

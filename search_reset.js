@@ -6,7 +6,12 @@ function searchPokemon() {
     if (search.length > 0) {
       search = search.toLowerCase();
       pokemonStartswith = pokemonNames_Ids.filter((pokemons) => pokemons.includes(search));
-      getIds(pokemonStartswith);
+      if (pokemonStartswith.length > 0) {
+        getIds(pokemonStartswith);
+      } 
+      else {
+        showNoresults();
+      }
     }
     else {
       reset(currentGen);
@@ -30,9 +35,23 @@ function searchPokemon() {
     }
     document.getElementById("searchInput").value = "";
     document.getElementById("loadmore").classList.add("d-none");
+    document.getElementById('loadingbackground').classList.remove('h-0');
+    document.getElementById('loadingbackground').classList.add('h-95');
+    document.getElementById('footer').style.position = "fixed";
+    document.getElementById('footer').style.width = "100%";
+    document.getElementById("noResultsFound").classList.add('d-none');
     searchKeydown = true;
   }
   
+  function showNoresults() {
+    document.getElementById("noResultsFound").classList.remove('d-none');
+    document.getElementById("loadmore").classList.add("d-none");
+    document.getElementById("searchInput").value = "";
+    document.getElementById('loadingbackground').classList.remove('h-95');
+    document.getElementById('loadingbackground').classList.add('h-0');
+    searchKeydown = true;
+  }
+
   function clearAll() {
     let clearAll = document.getElementById("pokemonList");
     clearAll.innerHTML = "";
@@ -45,18 +64,20 @@ function searchPokemon() {
   }
   
   async function reset(newgen) {
+    clearAll();
     searchKeydown = false;
     pokemonNames_Ids = [];
     document.getElementById("searchInput").value = "";
-    document.getElementById("resetBtn").disabled = true;
-    document.getElementById("searchBtn").disabled = true;
     disableGens(true);
     setSelectedGenBackground(newgen);
     currentPokemonId = 1;
     document.getElementById('loadingBar').style.width = "0%";
     document.getElementById('loadingBarContainer').style.display = "";
     document.getElementById('pokemonList').classList.add('d-none');
-    clearAll();
+    document.getElementById('loadingbackground').classList.remove('h-0');
+    document.getElementById('loadingbackground').classList.remove('h-95');
+    document.getElementById('footer').style.position = "sticky";
+    document.getElementById("noResultsFound").classList.add('d-none');
     selectGen(newgen);
     
   }

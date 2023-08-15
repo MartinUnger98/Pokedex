@@ -31,12 +31,12 @@
     <header class="header text-center pb-3 ">
       <div class="d-flex justify-content-between  firstrow align-items-center pt-3 paddingx-5">
         <div class="d-flex align-items-center gap-5">
-          <img src="img/pokeball2.png" alt="">
-          <h1 id="resetBtn" onclick="reset(currentGen)">Pokédex</h1>
+          <img class="curser-pointer" onclick="reset(currentGen)" src="img/pokeball2.png" alt="">
+          <h1 class="curser-pointer" id="resetBtn" onclick="reset(currentGen)">Pokédex</h1>
         </div>       
         <div class="d-flex justify-content-center align-items-center gap-1">
             <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
-            <img id="searchBtn" onclick="searchPokemon()" src="img/lupe.png" class="img30x30" alt="">
+            <img id="searchBtn" onclick="searchPokemon()" src="img/lupe.png" class="img30x30 curser-pointer" alt="">
         </div>        
       </div>
       <div id="genContainer" class="mt-2">
@@ -58,7 +58,7 @@
     </div>
 
     <!-- Load More -->
-    <div id="loadmore" class="d-flex justify-content-center w-100 d-none">
+    <div id="loadmore" class="d-flex justify-content-center w-100 d-none mb-2">
       <button class="loadmore d-flex flex-row justify-content-center align-items-center gap-1" onclick="loadmore()">
         Load more
         <div id="loadAni" class="lds-dual-ring d-none"></div>
@@ -67,10 +67,17 @@
     </div>
     
     <!-- Loading Bar -->
-    <div class="d-flex justify-content-center align-items-center flex-column loadingbackground mb-3 h-100">
+    <div id="loadingbackground" class="d-flex justify-content-center align-items-center flex-column loadingbackground">
       <h2 id="loadingtxt">Loading GEN1</h2>
       <div id="loadingBarContainer" class="text-center">
         <div id="loadingBar"></div>
+      </div>
+    </div>
+
+    <!-- No results -->
+    <div id="noResultsFound" class="d-none d-flex justify-content-center align-items-center noResult">
+      <div class="pb-3 pt-3 px-3 noResultTxt">
+        No Results
       </div>
     </div>
 
@@ -78,7 +85,7 @@
     <div id="overlay" class="d-none" onclick="closeOverlay()"></div>
 
     <!-- Footer -->
-    <footer class="d-flex justify-content-center align-items-center flex-column">
+    <footer id="footer" class="d-flex justify-content-center align-items-center flex-column text-center">
       <div>
           <a href="./index.html">Startseite | </a>
           <a href="./impressumdatenschutz.html">Impressum & Datenschutz</a>

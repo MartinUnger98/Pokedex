@@ -33,6 +33,29 @@ footer {
   padding: 16px;
 }
 
+.h-0 {
+  height: 0px !important;
+}
+
+.h-95 {
+  height: 95px !important;
+}
+
+.noResult {
+  height: calc(100vh - 220px);
+}
+
+.noResultTxt {
+  background-color: #173753;
+  color: white;
+  border-radius: 10px;
+  font-size: 50px;
+}
+
+.curser-pointer {
+  cursor: pointer;
+}
+
 footer a {
   text-decoration: none;
   color: white
@@ -67,6 +90,10 @@ footer a:hover {
 }
 
 /* ===== Loading Bar ===== */
+
+.loadingbackground {
+  height: calc(100vh - 218px);
+}
 
 .loadmore {
   height: 80px;
