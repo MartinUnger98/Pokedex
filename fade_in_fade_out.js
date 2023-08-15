@@ -4,9 +4,9 @@ function showLoadedPokemon(end, start) {
     }
   }
   
-  function updateLoadingBar(end) {
+  function updateLoadingBar(start, end) {
     let loadingBar = document.getElementById('loadingBar');  
-    let progress = (currentPokemonId / end) * 100; // Berechne Fortschritt in Prozent
+    let progress = (start / (end + 1)) * 100; // Berechne Fortschritt in Prozent
     loadingBar.style.width = `${progress}%`;
   }
 

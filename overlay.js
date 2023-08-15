@@ -7,28 +7,38 @@ async function displayOverlay(pokemonIndex) {
     overlay.classList.add('overlay');
     let typesImages = pokemonData.types.map(type => `<img class="typeImg" src="img/${type.type.name}.svg">`).join('');
     let pokemonInfo = `<h2>#${pokemonData.id} ${pokemonData.name.toUpperCase()}</h2>${typesImages}`;
+    let abilities = createAbilities(pokemonData);
+    let statsInfo = createStatsinfo(pokemonData);
+    let evolutionImgArray = evolutionImgs[pokemonIndex];
+    let evolutionImg = createEvolutionImg(evolutionImgArray);
+    overlay.innerHTML = overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex, evolutionImg, abilities);
+  }
+
+  function createAbilities(pokemonData) {
+    let abilities = "";
+    for (let i = 0; i < pokemonData.abilities.length; i++) {
+        const ability = pokemonData.abilities[i];
+        abilities += `<li class="firstLetterUpper">${ability.ability.name}</li>`;        
+    }
+    return abilities;
+  }
+
+  function createStatsinfo(pokemonData) {
     let statsInfo = `<h3>Stats:</h3>`;
     for (let stat of pokemonData.stats) {
       let statValue = stat.base_stat
       statsInfo += statHTML(stat, statValue);
     }
-    let evolutionImgArray = evolutionImgs[pokemonIndex];
-    let evolutionImg = createEvolutionImg(evolutionImgArray);
-    overlay.innerHTML = overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex, evolutionImg);
+    return statsInfo;
   }
 
   function createEvolutionImg(evolutionImgArray) {
     let evolutionImges = "";
     for (let i = 0; i < evolutionImgArray.length; i++) {
         const element = evolutionImgArray[i];
-        evolutionImges += `<img class="img100x100" src="${element}">`;
+        evolutionImges += `<img class="img80x80" src="${element}">`;
     }
     return evolutionImges;
-  }
-
-  async function pushEvolutionImg(pokemonData, pokemonId) {
-    let images = await getEvolutionImg(pokemonData);
-    evolutionImgs[pokemonId] = images;
   }
 
   async function getEvolutionImg(pokemonData) {
@@ -42,23 +52,21 @@ async function displayOverlay(pokemonIndex) {
     let evolutionImg = getEvolutionImages(evolutionnames);
     return evolutionImg;
   }
+  
+  
 
   function getEvolutionArray(responsAsJSONChain) {
     let evolutionnames = [];
-    if (responsAsJSONChain.chain.evolves_to.length === 0) {
-        evolutionnames.push(responsAsJSONChain.chain.species.name);
+    let chain = responsAsJSONChain.chain;
+
+    while (chain) {
+        evolutionnames.push(chain.species.url.split('/').slice(-2, -1)[0]);
+        chain = chain.evolves_to[0];
     }
-    else if (responsAsJSONChain.chain.evolves_to[0].evolves_to.length === 0) {
-        evolutionnames.push(responsAsJSONChain.chain.species.name);
-        evolutionnames.push(responsAsJSONChain.chain.evolves_to[0].species.name);
-    }
-    else {
-        evolutionnames.push(responsAsJSONChain.chain.species.name);
-        evolutionnames.push(responsAsJSONChain.chain.evolves_to[0].species.name);
-        evolutionnames.push(responsAsJSONChain.chain.evolves_to[0].evolves_to[0].species.name);
-    }
+
     return evolutionnames;
-  }
+}
+
 
   async function getEvolutionImages(evolutionnames) {
     let evolutionImg = [];

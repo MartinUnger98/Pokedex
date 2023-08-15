@@ -28,28 +28,29 @@
     
   </head>
   <body onload="selectGen('gen1')">
-    <header class="header text-center pb-3">
-      <h1>Pokédex</h1>
-      <div class="d-flex justify-content-center align-items-center gap-1">
-        <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
-        <button id="searchBtn" onclick="searchPokemon()" disabled>
-          <img src="img/lupe.png" class="img30x30" alt="">
-        </button>
-        <button id="resetBtn" onclick="reset(currentGen)" disabled>
-          <img src="img/pfeil-aktualisieren.png" class="img30x30" alt="">
-        </button>
+    <header class="header text-center pb-3 ">
+      <div class="d-flex justify-content-between  firstrow align-items-center pt-3 paddingx-5">
+        <div class="d-flex align-items-center gap-5">
+          <img src="img/pokeball2.png" alt="">
+          <h1 id="resetBtn" onclick="reset(currentGen)">Pokédex</h1>
+        </div>       
+        <div class="d-flex justify-content-center align-items-center gap-1">
+            <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
+            <img id="searchBtn" onclick="searchPokemon()" src="img/lupe.png" class="img30x30" alt="">
+        </div>        
       </div>
       <div id="genContainer" class="mt-2">
-        <button id="gen1" class="selected" onclick="reset('gen1')">Gen1</button>
-        <button id="gen2" class="gens" onclick="reset('gen2')">Gen2</button>
-        <button id="gen3" class="gens" onclick="reset('gen3')">Gen3</button>
-        <button id="gen4" class="gens" onclick="reset('gen4')">Gen4</button>
-        <button id="gen5" class="gens" onclick="reset('gen5')">Gen5</button>
-        <button id="gen6" class="gens" onclick="reset('gen6')">Gen6</button>
-        <button id="gen7" class="gens" onclick="reset('gen7')">Gen7</button>
+        <button id="gen1" class="selected mb-2" onclick="reset('gen1')">Gen1</button>
+        <button id="gen2" class="gens mb-2" onclick="reset('gen2')">Gen2</button>
+        <button id="gen3" class="gens mb-2" onclick="reset('gen3')">Gen3</button>
+        <button id="gen4" class="gens mb-2" onclick="reset('gen4')">Gen4</button>
+        <button id="gen5" class="gens mb-2" onclick="reset('gen5')">Gen5</button>
+        <button id="gen6" class="gens mb-2" onclick="reset('gen6')">Gen6</button>
+        <button id="gen7" class="gens mb-2" onclick="reset('gen7')">Gen7</button>
       </div>
       
     </header>
+ 
 
     <!-- PokemonList -->
     <div id="pokemonList" class="d-none d-flex flex-wrap justify-content-center">
@@ -75,5 +76,14 @@
 
     <!-- Overlay -->
     <div id="overlay" class="d-none" onclick="closeOverlay()"></div>
+
+    <!-- Footer -->
+    <footer class="d-flex justify-content-center align-items-center flex-column">
+      <div>
+          <a href="./index.html">Startseite | </a>
+          <a href="./impressumdatenschutz.html">Impressum & Datenschutz</a>
+      </div>
+      © Copyright 2023 by MartinUnger - All rights reserved.
+    </footer>
   </body>
 </html>

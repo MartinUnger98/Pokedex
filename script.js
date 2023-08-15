@@ -57,17 +57,27 @@ function selectGen(gen) {
 
 
 async function loadAllPokemon(start, end) {
-  let amountMore = 15;
+  let amountMore = 50;
   if(start + amountMore > end) {
     amountMore = end - start;
   };
-
+  let number = 1;
+  const promises = [];
   while (currentPokemonId <= start + amountMore) {
+      promises.push(fetchPokemonData(currentPokemonId));
+      updateLoadingBar(number, amountMore);
+      currentPokemonId++;
+      number++;
+  }
+  await Promise.all(promises);
+  
+
+  /* while (currentPokemonId <= start + amountMore) {
     await fetchPokemonData(currentPokemonId);
     updateLoadingBar(start + amountMore);
     currentPokemonId++;
-  }
-  // Alle Pokemon sind geladen, Ladebalken ausblenden alles disablen auf false
+  } */
+
   showLoadedPokemon((start + amountMore), start);
   document.getElementById('loadingBarContainer').classList.add('d-none');
   document.getElementById('loadAni').classList.add('d-none');
@@ -87,6 +97,13 @@ async function fetchPokemonData(pokemonId) {
   displayPokemonCard(responsAsJSON);
   pushEvolutionImg(responsAsJSON, pokemonId);
 }
+
+
+async function pushEvolutionImg(pokemonData, pokemonId) {
+  let images = await getEvolutionImg(pokemonData);
+  evolutionImgs[pokemonId] = images;
+}
+
 
 async function getResponseAsJSON(pokemonId) {
   let url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`

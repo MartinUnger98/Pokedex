@@ -1,0 +1,32 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.privat_policy, .impressum {
+    padding: 24px;
+}
+
+
+.header {
+    background-color: #4A95C2;
+    position: sticky;
+    top: 0;
+    color: white;
+}
+
+footer {
+    background-color: #4A95C2;
+    position: sticky;
+    bottom: 0;
+    color: white;
+    padding: 16px;
+}
+
+footer a {
+    text-decoration: none;
+    color: white
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
