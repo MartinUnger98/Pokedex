@@ -27,8 +27,9 @@ header {
 
 footer {
   background-color: #4A95C2;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  width: 100%;
   color: white;
   padding: 16px;
 }
@@ -65,6 +66,11 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.img25x25 {
+  width: 25px;
+  height: 25px;
+}
+
 .img30x30 {
   width: 30px;
   height: 30px;
@@ -93,6 +99,10 @@ footer a:hover {
 
 .loadingbackground {
   height: calc(100vh - 218px);
+}
+
+#loadmore {
+  margin-bottom: 90px;
 }
 
 .loadmore {
@@ -395,6 +405,14 @@ img.typeImg {
   .img100x100 {
     width: 75px;
     height: 75px;
+  }
+
+  #loadmore {
+    margin-bottom: 120px;
+  }
+
+  .scaleDown {
+    scale: 0.8;
   }
 }
 

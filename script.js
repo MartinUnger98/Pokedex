@@ -48,19 +48,12 @@ function selectGen(gen) {
   currentPokemonId = gens[gen].start;
   let start = gens[gen].start;
   let end = gens[gen].end;
-  document.getElementById('loadingBarContainer').classList.remove('d-none');
-  document.getElementById('loadmore').classList.add('d-none');
-  document.getElementById('loadingtxt').classList.remove('d-none');
-  document.getElementById('loadingtxt').innerHTML = "Loading " + currentGen.toUpperCase();
+  fadeInsFadeOutsSelectGen();
   loadAllPokemon(start, end);
 }
 
-
 async function loadAllPokemon(start, end) {
-  let amountMore = 10;
-  if(start + amountMore > end) {
-    amountMore = end - start;
-  };
+  let amountMore = getAmount(start, end);
   let number = 1;
   const promises = [];
   while (currentPokemonId <= start + amountMore) {
@@ -70,19 +63,17 @@ async function loadAllPokemon(start, end) {
       number++;
   }
   await Promise.all(promises);
+  fadeInsFadeOutsLoadPokemon(start,amountMore);
   
-  showLoadedPokemon((start + amountMore), start);
-  document.getElementById('loadingBarContainer').classList.add('d-none');
-  document.getElementById('loadAni').classList.add('d-none');
-  document.getElementById('pokemonList').classList.remove('d-none');
-  document.getElementById("loadmore").classList.remove('d-none');
-  document.getElementById('loadingbackground').classList.add('h-0');
-  document.getElementById('loadingtxt').classList.add('d-none');
-  disableGens(false);
-  searchKeydown = true;
-
 }
 
+function getAmount(start, end) {
+  let amountMore = 10;
+  if(start + amountMore > end) {
+    amountMore = end - start;
+  };
+  return amountMore;
+}
 
 async function fetchPokemonData(pokemonId) {
   let responsAsJSON = await getResponseAsJSON(pokemonId);
@@ -95,7 +86,6 @@ async function pushEvolutionImg(pokemonData, pokemonId) {
   let images = await getEvolutionImg(pokemonData);
   evolutionImgs[pokemonId] = images;
 }
-
 
 async function getResponseAsJSON(pokemonId) {
   let url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
@@ -114,16 +104,3 @@ function displayPokemonCard(pokemonData) {
   let pokemonIndex = pokemonData.id 
   pokemonCard.innerHTML += pokemonCardHTML(pokemonData, pokemonInfo, pokemonIndex);
 }
-
-function displayErrorMessage() {
-  let errorCard = document.createElement('div');
-  errorCard.classList.add('error-card');
-  errorCard.classList.add('text-center');
-  errorCard.textContent = 'Pokemon not found.';
-  pokemonListDiv.appendChild(errorCard);
-}
-
-
-
-
-

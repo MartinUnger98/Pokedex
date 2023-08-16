@@ -31,12 +31,13 @@
     <header class="header text-center pb-3 ">
       <div class="d-flex justify-content-between  firstrow align-items-center pt-3 paddingx-5">
         <div class="d-flex align-items-center gap-5">
-          <img class="curser-pointer" onclick="reset(currentGen)" src="img/pokeball2.png" alt="">
+          <img class="curser-pointer scaleDown" onclick="reset(currentGen)" src="img/pokeball2.png" alt="">
           <h1 class="curser-pointer" id="resetBtn" onclick="reset(currentGen)">Pokédex</h1>
         </div>       
         <div class="d-flex justify-content-center align-items-center gap-1">
             <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
-            <img id="searchBtn" onclick="searchPokemon()" src="img/lupe.png" class="img30x30 curser-pointer" alt="">
+            <img onclick="searchPokemon()" src="img/lupe.png" class="img30x30 scale curser-pointer" alt="">
+            <img id="update" onclick="reset(currentGen)" src="img/pfeile-aktualisieren.png" class="d-none img25x25 scale curser-pointer mx-2" alt="">
         </div>        
       </div>
       <div id="genContainer" class="mt-2">
@@ -48,17 +49,16 @@
         <button id="gen6" class="gens mb-2" onclick="reset('gen6')">Gen6</button>
         <button id="gen7" class="gens mb-2" onclick="reset('gen7')">Gen7</button>
       </div>
-      
     </header>
  
 
     <!-- PokemonList -->
-    <div id="pokemonList" class="d-none d-flex flex-wrap justify-content-center">
+    <div id="pokemonList" class="d-flex flex-wrap justify-content-center">
       <!-- Pokemon cards will be displayed here -->
     </div>
 
     <!-- Load More -->
-    <div id="loadmore" class="d-flex justify-content-center w-100 d-none mb-2">
+    <div id="loadmore" class="d-flex justify-content-center w-100 d-none">
       <button class="loadmore d-flex flex-row justify-content-center align-items-center gap-1" onclick="loadmore()">
         Load more
         <div id="loadAni" class="lds-dual-ring d-none"></div>
