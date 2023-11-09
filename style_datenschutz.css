@@ -1,5 +1,6 @@
 body {
     font-family: 'Lato', sans-serif;
+    background-color: #DDDDDD !important	;
 }
 
 .privat_policy, .impressum {
@@ -7,26 +8,50 @@ body {
 }
 
 
+
+
 .header {
-    background-color: #4A95C2;
+    background-color: #D1292E;
     position: sticky;
     top: 0;
+    
+}
+
+header a{
     color: white;
+    text-decoration: none;
 }
 
 footer {
-    background-color: #4A95C2;
-    position: sticky;
-    bottom: 0;
+    background-color: #D1292E;
     color: white;
     padding: 16px;
 }
 
 footer a {
     text-decoration: none;
-    color: white
+    color: white;
+    
+
+
+}
+footer p {
+    margin-top: 8px;
+    text-align: center;
+    margin-bottom: 0;
 }
 
 footer a:hover {
     text-decoration: underline;
+}
+
+.pokedex {
+    width: 130px;
+    filter: drop-shadow(6px 5px 4px rgba(0, 0, 0, 0.788));
+  }
+
+@media (max-width: 380px ){
+    h2, h3 {
+        font-size: 21px !important;
+    }
 }

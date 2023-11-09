@@ -30,10 +30,11 @@
   <body onload="selectGen('gen1')">
     <header class="header text-center pb-3 ">
       <div class="d-flex justify-content-between  firstrow align-items-center pt-3 paddingx-5">
-        <div class="d-flex align-items-center gap-5">
-          <img class="curser-pointer scaleDown" onclick="reset(currentGen)" src="img/pokeball2.png" alt="">
+        <div class="d-flex align-items-center gap-5">   
+          <img class="curser-pointer pokedex" onclick="reset(currentGen)" src="img/pokedex.svg" alt="">     
           <h1 class="curser-pointer" id="resetBtn" onclick="reset(currentGen)">Pokédex</h1>
-        </div>       
+        </div> 
+              
         <div class="d-flex justify-content-center align-items-center gap-1">
             <input id="searchInput" type="text" placeholder="Search Pokémon..."/>
             <img onclick="searchPokemon()" src="img/lupe.png" class="img30x30 scale curser-pointer" alt="">
@@ -82,7 +83,7 @@
     </div>
 
     <!-- Overlay -->
-    <div id="overlay" class="d-none" onclick="closeOverlay()"></div>
+    <div id="overlay" class="d-none d-flex align-items-center justify-content-center" onclick="closeOverlay()"></div>
 
     <!-- Footer -->
     <footer id="footer" class="d-flex justify-content-center align-items-center flex-column text-center">

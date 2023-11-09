@@ -82,7 +82,6 @@ event.stopPropagation();
 }
 
 function nextPokemon(pokemonIndex) { 
-let end = gens[currentGen].end;
 if(pokemonIndex < currentPokemonId -1) {
   pokemonIndex++;
   displayOverlay(pokemonIndex);

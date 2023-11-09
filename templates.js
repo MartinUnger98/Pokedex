@@ -45,7 +45,7 @@ function overlayHTML(pokemonData, pokemonInfo, statsInfo, pokemonIndex, evolutio
 
 function statHTML(stat, statValue) {
   return `
-  <div class="d-flex align-items-center mb-1 gap-3">
+  <div class="d-flex align-items-center mb-1 gap-3 font12">
     <div class="stat-name firstLetterUpper">${stat.stat.name}:</div>
     <div class="progress" role="progressbar" aria-label="Example with label">
       <div class="progress-bar" style="width: ${statValue}%">${statValue}</div>
