@@ -1,5 +1,6 @@
 function searchPokemon() {
   searchKeydown = false;
+  closeOverlay();
   clearAll();
   let pokemonStartswith = [];
   let search = document.getElementById("searchInput").value;
@@ -60,6 +61,7 @@ function getIdinInt(pokemon) {
 }
 
 function reset(newgen) {
+  closeOverlay();
   clearAll();
   searchKeydown = false;
   pokemonNames_Ids = [];
