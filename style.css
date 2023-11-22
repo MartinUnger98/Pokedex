@@ -9,6 +9,7 @@ body {
   margin: 0px;
   background: linear-gradient(to bottom right, #DDDDDD 30%, #afadad 82%);
   font-family: 'Lato', sans-serif !important;
+  padding-bottom: 20px;
 }
 
 input {
@@ -31,7 +32,7 @@ header {
 footer {
   background: linear-gradient(to bottom right, #D1292E 30%, #8b1216 82%);
   position: absolute;
-  bottom: 0;
+  bottom: -80px;
   left: 0;
   width: 100%;
   color: white;
@@ -114,9 +115,6 @@ footer a:hover {
   height: calc(100vh - 218px);
 }
 
-#loadmore {
-  margin-bottom: 90px;
-}
 
 .loadmore {
   height: 80px;
@@ -462,8 +460,11 @@ img.typeImg {
     height: 75px;
   }
 
-  #loadmore {
-    margin-bottom: 120px;
+}
+
+@media (max-width: 416px) {
+  footer {
+    bottom: -100px;
   }
 }
 
