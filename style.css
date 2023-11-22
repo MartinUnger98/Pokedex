@@ -178,7 +178,6 @@ footer a:hover {
 
 .gens:hover {
   background-color: #94050a;
-  color: white;
 }
 
 .gens {
@@ -186,6 +185,7 @@ footer a:hover {
   border-radius: 5px;  
   background-color:  #c0494d;
   border: 0.5px solid rgb(84, 0, 0);
+  color: white;
 }
 
 .selected {
