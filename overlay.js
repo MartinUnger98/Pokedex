@@ -13,85 +13,101 @@ async function displayOverlay(pokemonIndex) {
 } 
 
 function createAbilities(pokemonData) {
-let abilities = "";
-for (let i = 0; i < pokemonData.abilities.length; i++) {
-    const ability = pokemonData.abilities[i];
-    abilities += `<li class="firstLetterUpper">${ability.ability.name}</li>`;        
-}
-return abilities;
+  let abilities = "";
+  for (let i = 0; i < pokemonData.abilities.length; i++) {
+      const ability = pokemonData.abilities[i];
+      abilities += `<p class="firstLetterUpper">${ability.ability.name}</p>`;        
+  }
+  return abilities;
 }
 
 function createStatsinfo(pokemonData) {
-let statsInfo = `<h3>Stats:</h3>`;
-for (let stat of pokemonData.stats) {
-  let statValue = stat.base_stat
-  statsInfo += statHTML(stat, statValue);
-}
-return statsInfo;
+  let statsInfo = ``;
+  for (let stat of pokemonData.stats) {
+    let statValue = stat.base_stat
+    statsInfo += statHTML(stat, statValue);
+  }
+  return statsInfo;
 }
 
 function createEvolutionImg(evolutionImgArray) {
-let evolutionImges = "";
-for (let i = 0; i < evolutionImgArray.length; i++) {
-    const element = evolutionImgArray[i];
-    evolutionImges += `<img class="img80x80" src="${element}">`;
-}
-return evolutionImges;
+  let evolutionImges = "";
+  for (let i = 0; i < evolutionImgArray.length; i++) {
+      const element = evolutionImgArray[i];
+      evolutionImges += `<img class="img80x80" src="${element}">`;
+  }
+  return evolutionImges;
 }
 
 async function getEvolutionImg(pokemonData) {
-let urlSpecies = pokemonData.species.url;
-let responseSpecies = await fetch(urlSpecies);
-let responsAsJSONSpecies = await responseSpecies.json();
-let urlChain = responsAsJSONSpecies.evolution_chain.url;
-let responseChain = await fetch(urlChain);
-let responsAsJSONChain = await responseChain.json(); 
-let evolutionnames = getEvolutionArray(responsAsJSONChain);
-let evolutionImg = getEvolutionImages(evolutionnames);
-return evolutionImg;
+  let urlSpecies = pokemonData.species.url;
+  let responseSpecies = await fetch(urlSpecies);
+  let responsAsJSONSpecies = await responseSpecies.json();
+  let urlChain = responsAsJSONSpecies.evolution_chain.url;
+  let responseChain = await fetch(urlChain);
+  let responsAsJSONChain = await responseChain.json(); 
+  let evolutionnames = getEvolutionArray(responsAsJSONChain);
+  let evolutionImg = getEvolutionImages(evolutionnames);
+  return evolutionImg;
 }
 
 function getEvolutionArray(responsAsJSONChain) {
-let evolutionnames = [];
-let chain = responsAsJSONChain.chain;
-while (chain) {
-    evolutionnames.push(chain.species.url.split('/').slice(-2, -1)[0]);
-    chain = chain.evolves_to[0];
-}
-return evolutionnames;
+  let evolutionnames = [];
+  let chain = responsAsJSONChain.chain;
+  while (chain) {
+      evolutionnames.push(chain.species.url.split('/').slice(-2, -1)[0]);
+      chain = chain.evolves_to[0];
+  }
+  return evolutionnames;
 }
 
 async function getEvolutionImages(evolutionnames) {
-let evolutionImg = [];
-for (let i = 0; i < evolutionnames.length; i++) {
-    const evolutions = evolutionnames[i];
-    let responsAsJSON = await getResponseAsJSON(evolutions);
-    evolutionImg.push(responsAsJSON.sprites.other["official-artwork"].front_default);        
-}
-return evolutionImg;
+  let evolutionImg = [];
+  for (let i = 0; i < evolutionnames.length; i++) {
+      const evolutions = evolutionnames[i];
+      let responsAsJSON = await getResponseAsJSON(evolutions);
+      evolutionImg.push(responsAsJSON.sprites.other["official-artwork"].front_default);        
+  }
+  return evolutionImg;
 }
 
 function closeOverlay() {
-overlayKeydown = false;
-let overlay = document.getElementById("overlay")
-overlay.classList.add("d-none");
+  overlayKeydown = false;
+  let overlay = document.getElementById("overlay")
+  overlay.classList.add("d-none");
 }
 
 function doNotCloseOverlay(event) {
-event.stopPropagation();
+  event.stopPropagation();
 }
 
 function nextPokemon(pokemonIndex) { 
-if(pokemonIndex < currentPokemonId -1) {
-  pokemonIndex++;
-  displayOverlay(pokemonIndex);
-}
+  if(pokemonIndex < currentPokemonId -1) {
+    pokemonIndex++;
+    displayOverlay(pokemonIndex);
+  }
 }
 
 function previousPokemon(pokemonIndex) {
-let start = gens[currentGen].start;
-if(pokemonIndex > start) {
-  pokemonIndex--;
-  displayOverlay(pokemonIndex);
+  let start = gens[currentGen].start;
+  if(pokemonIndex > start) {
+    pokemonIndex--;
+    displayOverlay(pokemonIndex);
+  }
 }
+
+function selectRow(id, type) {
+  let sections = ['abilities', 'evolutions', 'stats'];
+  sections.forEach(section => {
+    let contentElement = document.getElementById(section);
+    let buttonElement = document.getElementById(section + 'Btn');
+    if (section === id) {
+      contentElement.classList.remove('d-none');
+      buttonElement.classList.add(type, 'colorWhite');
+    } else {
+      contentElement.classList.add('d-none');
+      buttonElement.classList.remove(type, 'colorWhite');
+    }
+  });
 }
+
